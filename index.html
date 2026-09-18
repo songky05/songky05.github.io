@@ -502,8 +502,8 @@ textarea,input[type=text]{border-radius:0}
 (function(){
   "use strict";
 
-  // 첨부해주신 이미지 속 실제 키 적용
-  const GEMINI_API_KEY = "AQ.Ab8RN6IjMHUOPA31e6aQvUvMs5UQppRp1c4x_zBXC3gd1F57gw";
+  // 사용자가 요청한 최신 API 키 적용
+  const GEMINI_API_KEY = "AQ.Ab8RN6LkaBjRKEMQ3RS8BOHwrS7WE3sya4L5J6bRHsk_Ag-xgw";
 
   var S = { photo:null, photoBase64:null, photoMime:null, photoURL:null, when:"", addr:"", note:"", result:null };
   var $ = function(id){ return document.getElementById(id); };
@@ -601,8 +601,8 @@ textarea,input[type=text]{border-radius:0}
   function stopSteps(){ clearInterval(stepTimer); }
 
   async function callGeminiAPI(base64Image, mimeType, textPrompt){
-    // URL에서 ?key=...를 없애고 헤더로 인증하도록 수정
-    const endpoint = "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent";
+    // URL 쿼리와 x-goog-api-key 헤더 양쪽에 키를 전달하여 구글 게이트웨이 인증 누락 방지
+    const endpoint = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${encodeURIComponent(GEMINI_API_KEY)}`;
 
     const systemInstruction = `당신은 대한민국 안전신문고와 국민신문고의 접수 실무를 완벽히 꿰뚫고 있는 전문 행정 민원 작성관입니다.
 사용자가 제출한 현장 사진과 메모를 객관적으로 분석해 완벽한 사실만을 바탕으로 정식 행정 신고서를 작성하세요.
@@ -655,7 +655,6 @@ textarea,input[type=text]{border-radius:0}
       method: "POST",
       headers: { 
         "Content-Type": "application/json",
-        // 최신 구글 API 키 표준 규격 헤더 지정
         "x-goog-api-key": GEMINI_API_KEY
       },
       body: JSON.stringify({
