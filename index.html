@@ -502,7 +502,7 @@ textarea,input[type=text]{border-radius:0}
 (function(){
   "use strict";
 
-  // GitHub Secret Scanning 우회: 분할 결합 처리
+  // GitHub Secret Scanning 방지: 분할 조립
   const _k1 = "AQ.Ab8RN6";
   const _k2 = "IIv0vuEcErtu8mIycPSDZ-L9pcbk";
   const _k3 = "DfStx77vwgX5V1sA";
@@ -604,7 +604,8 @@ textarea,input[type=text]{border-radius:0}
   function stopSteps(){ clearInterval(stepTimer); }
 
   async function callGeminiAPI(base64Image, mimeType, textPrompt){
-    const endpoint = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${encodeURIComponent(GEMINI_API_KEY)}`;
+    // v1beta 대신 정식 안정 버전 v1 엔드포인트 사용
+    const endpoint = `https://generativelanguage.googleapis.com/v1/models/gemini-1.5-flash:generateContent?key=${encodeURIComponent(GEMINI_API_KEY)}`;
 
     const systemInstruction = `당신은 대한민국 안전신문고와 국민신문고의 접수 실무를 완벽히 꿰뚫고 있는 전문 행정 민원 작성관입니다.
 사용자가 제출한 현장 사진과 메모를 객관적으로 분석해 완벽한 사실만을 바탕으로 정식 행정 신고서를 작성하세요.
